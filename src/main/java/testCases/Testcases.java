@@ -20,6 +20,8 @@ public class Testcases {
     CheckoutPopUp checkoutPopUp;
     OrderSummary orderSummary;
     PaymentOptions paymentoptions;
+    CardDetails cardDetails;
+
     Close close;
 
 
@@ -32,6 +34,7 @@ public void initiateDrivers() throws IOException {
         checkoutPopUp=new CheckoutPopUp(driver);
         orderSummary= new OrderSummary(driver);
         paymentoptions = new PaymentOptions(driver);
+        cardDetails= new CardDetails(driver);
 
         close=new Close(driver);
 
@@ -89,16 +92,27 @@ public void initiateDrivers() throws IOException {
     }
     @Test(priority = 10, groups = {"Regression","Smoke"})
     public void verifyContinueButton(){
-    Assert.assertTrue(orderSummary.clickOnContinueButton());
+        Assert.assertTrue(orderSummary.clickOnContinueButton());
     }
+
     @Test(priority = 11, groups = {"Regression"})
     public void VerifyBackButtonFunctionality(){
     paymentoptions.clickOnBackButton();
     Assert.assertTrue(paymentoptions.verifylandedPage());
+    OpenBrowser.wait(2);
+    Assert.assertTrue(orderSummary.clickOnContinueButton());
+    }
+    @Test(priority = 12, groups = {"Regression"})
+    public void verifyCardDetails(){
+        cardDetails.enterCardNumber(BasePage.p.getProperty("cardnumber"));
+        cardDetails.enterExpiry(BasePage.p.getProperty("expiry"));
+        cardDetails.enterCVV(BasePage.p.getProperty("cvv"));
+        cardDetails.clickOnPayButton();
+        Assert.assertTrue(cardDetails.clickOnPayButton());
     }
 
 
-@AfterTest
+    @AfterTest
     public void close(){
         close.close();
 }
