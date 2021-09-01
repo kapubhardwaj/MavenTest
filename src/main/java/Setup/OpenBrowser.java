@@ -48,7 +48,12 @@ public class  OpenBrowser {
     public static void implicitWait(int seconds){
         driver.manage().timeouts().implicitlyWait(seconds, TimeUnit.SECONDS);
     }
-
+    public static void wait(int seconds){  try {
+        Thread.sleep(seconds*1000);
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+    }
     public static boolean waitForvisibilityOfElementLocated(String location){
 
         WebDriverWait wait = new WebDriverWait(driver,30);

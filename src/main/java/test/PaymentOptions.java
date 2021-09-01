@@ -1,5 +1,6 @@
 package test;
 
+import Setup.OpenBrowser;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -35,9 +36,13 @@ public class PaymentOptions extends BasePage{
     WebElement SubmitButton;
 
         public void clickOnBackButton(){
+            OpenBrowser.wait(2);
             Backbutton.click();
+            OpenBrowser.wait(2);
+
         }
     public Boolean verifylandedPage() {
+
         String header = headerOrder.getText();
         if (header.equalsIgnoreCase("Order Summary")) {
             return true;
