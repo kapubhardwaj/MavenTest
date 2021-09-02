@@ -15,6 +15,7 @@ public class CheckoutPopUp extends BasePage {
         PageFactory.initElements(driver1,this);
     }
 
+    String location= "//a[@class='button-main-content']";
     @FindBy(xpath = "//tr[@class='table-content']//input[@value='Budi']")
     WebElement Name;
     @FindBy(xpath = "//tr[@class='table-content']//input[@value='budi@utomo.com']")

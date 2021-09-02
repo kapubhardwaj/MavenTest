@@ -17,6 +17,7 @@ public class BuyNow extends BasePage {
     WebElement BuyNowButton;
 
     public void BuyNowClick(){
+        driver.get(BasePage.p.getProperty("url"));
         BuyNowButton.click();
     }
 

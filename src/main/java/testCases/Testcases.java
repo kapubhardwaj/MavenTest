@@ -1,6 +1,7 @@
 package testCases;
 
 import Setup.OpenBrowser;
+import net.bytebuddy.implementation.bind.annotation.This;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
@@ -21,7 +22,6 @@ public class Testcases {
     OrderSummary orderSummary;
     PaymentOptions paymentoptions;
     CardDetails cardDetails;
-
     Close close;
 
 
@@ -29,13 +29,11 @@ public class Testcases {
 public void initiateDrivers() throws IOException {
     WebDriver driver = openBrowser();
         basePage= new BasePage(driver);
-        driver.get(BasePage.p.getProperty("url"));
         buynow=new BuyNow(driver);
         checkoutPopUp=new CheckoutPopUp(driver);
         orderSummary= new OrderSummary(driver);
         paymentoptions = new PaymentOptions(driver);
         cardDetails= new CardDetails(driver);
-
         close=new Close(driver);
 
 
@@ -101,14 +99,61 @@ public void initiateDrivers() throws IOException {
     Assert.assertTrue(paymentoptions.verifylandedPage());
     OpenBrowser.wait(2);
     Assert.assertTrue(orderSummary.clickOnContinueButton());
+        OpenBrowser.wait(2);
+
     }
-    @Test(priority = 12, groups = {"Regression"})
+    @Test(priority = 12, groups = {"Regression","Smoke"})
     public void verifyCardDetails(){
         cardDetails.enterCardNumber(BasePage.p.getProperty("cardnumber"));
         cardDetails.enterExpiry(BasePage.p.getProperty("expiry"));
         cardDetails.enterCVV(BasePage.p.getProperty("cvv"));
         cardDetails.clickOnPayButton();
         Assert.assertTrue(cardDetails.clickOnPayButton());
+    }
+    @Test(priority = 13, groups = {"Regression","Smoke"})
+    public void verifyValidOTPcase(){
+        cardDetails.verifyValidOTP();
+        cardDetails.clickonOKButton();
+        String expected_message="Thank you for your purchase.";
+        Assert.assertEquals(cardDetails.PurchaseConfirmation().getText(), expected_message);
+    }
+
+    @Test(priority = 14, groups = {"Regression","Smoke"})
+    public void verifyInvalidOTPcase(){
+        this.BuyNowButton();
+        this.verifyName();
+        this.verifyCity();
+        this.verifyEmail();
+        this.verifyPhone();
+        this.verifyPostalCode();
+        this.verifyOrderSummaryPopup();
+        this.verifyContinueButton();
+        cardDetails.enterCardNumber(BasePage.p.getProperty("cardnumber"));
+        cardDetails.enterExpiry(BasePage.p.getProperty("expiry"));
+        cardDetails.enterCVV(BasePage.p.getProperty("cvv"));
+        cardDetails.clickOnPayButton();
+        cardDetails.verifyInvalidOTP();
+        String expected_message="Your card got declined by the bank";
+        Assert.assertEquals(cardDetails.InvalidOTPCase().getText(),expected_message);
+    }
+
+    @Test(priority = 15, groups = {"Regression","Smoke"})
+    public void VerifyCancelButtonFunctionality(){
+        this.BuyNowButton();
+        this.verifyName();
+        this.verifyCity();
+        this.verifyEmail();
+        this.verifyPhone();
+        this.verifyPostalCode();
+        this.verifyOrderSummaryPopup();
+        this.verifyContinueButton();
+        cardDetails.enterCardNumber(BasePage.p.getProperty("cardnumber"));
+        cardDetails.enterExpiry(BasePage.p.getProperty("expiry"));
+        cardDetails.enterCVV(BasePage.p.getProperty("cvv"));
+        cardDetails.clickOnPayButton();
+        cardDetails.cancelButtonFunctionality();
+        Assert.assertEquals(cardDetails.Purchasecancelled().getText(), "Transaction failed");
+
     }
 
 
