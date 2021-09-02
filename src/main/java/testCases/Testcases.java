@@ -118,7 +118,7 @@ public void initiateDrivers() throws IOException {
         Assert.assertEquals(cardDetails.PurchaseConfirmation().getText(), expected_message);
     }
 
-    @Test(priority = 14, groups = {"Regression","Smoke"})
+    @Test(priority = 14, groups = {"Regression"})
     public void verifyInvalidOTPcase(){
         this.BuyNowButton();
         this.verifyName();
@@ -137,7 +137,7 @@ public void initiateDrivers() throws IOException {
         Assert.assertEquals(cardDetails.InvalidOTPCase().getText(),expected_message);
     }
 
-    @Test(priority = 15, groups = {"Regression","Smoke"})
+    @Test(priority = 15, groups = {"Regression"})
     public void VerifyCancelButtonFunctionality(){
         this.BuyNowButton();
         this.verifyName();
